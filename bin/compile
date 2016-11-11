@@ -49,7 +49,7 @@ source /tmp/jvm-common/bin/java
 #echo "Returned : ${javaVersion}"
 
 echo "-----> Installing OracleJDK ${javaVersion}"
-install_java ${BUILD_DIR} ${javaVersion}
+install_java ${BUILD_DIR} #${javaVersion}
 
 echo "-----> Installing Overlay"
 jdk_overlay ${BUILD_DIR}
