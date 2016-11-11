@@ -4,7 +4,7 @@
 # java now.
 #
 # bin/prepare <build-dir> <cache-dir> <env-dir>
-
+set -e
 
 BP_DIR=$(cd $(dirname $0)/..; pwd) # absolute path
 
@@ -37,11 +37,13 @@ mkdir -p /tmp/jvm-common
 echo "Downloading jvm buildpack."
 curl --silent --location $JVM_COMMON_BUILDPACK | tar xzm -C /tmp/jvm-common
 
+
 echo -n  "Source utils."
-. /tmp/jvm-common/bin/util
+source /tmp/jvm-common/bin/util
 
 echo -n "Source java."
-. /tmp/jvm-common/bin/java
+source /tmp/jvm-common/bin/java
+
 
 # install JDK
 echo -n "detecting java version"
