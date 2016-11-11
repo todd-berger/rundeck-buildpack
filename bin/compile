@@ -34,17 +34,8 @@ else echo "JVM_COMMON_BUILDPACK detected as '$JVM_COMMON_BUILDPACK'";
 fi
 
 echo "Downloading and extracting buildpack"
-# download the buildpack
-JVM_COMMON_BUILDPACK=${JVM_COMMON_BUILDPACK:-https://codon-buildpacks.s3.amazonaws.com/buildpacks/heroku/jvm-common.tgz}
 mkdir -p /tmp/jvm-common
 curl --silent --location $JVM_COMMON_BUILDPACK | tar xzm -C /tmp/jvm-common
-#. /tmp/jvm-common/bin/util
-#. /tmp/jvm-common/bin/java
-echo "yo"
-exit 1
-#mkdir -p /tmp/jvm-common
-#echo "Downloading jvm buildpack."
-#curl --silent --location $JVM_COMMON_BUILDPACK | tar xzm -C /tmp/jvm-common
 
 #echo -n "Sourcing utils."
 #source /tmp/jvm-common/bin/util
