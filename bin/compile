@@ -41,7 +41,7 @@ echo "-----> Sourcing utils."
 source /tmp/jvm-common/bin/util
 
 echo "-----> Sourcing java."
-source /tmp/jvm-common/bin/java
+source ${BUILD_DIR}/bin/java
 
 if [ ! -f ${BUILD_DIR}/system.properties ]; then
   echo "java.runtime.version=1.8" > ${BUILD_DIR}/system.properties
@@ -50,8 +50,8 @@ fi
 echo "-----> Detecting java version"
 javaVersion=$(detect_java_version ${BUILD_DIR})
 
-echo "-----> Installing OracleJDK "
-install_java ${BUILD_DIR} ${javaVersion}
+echo "-----> Installing OracleJDK ${javaVersion}"
+install_java ${BUILD_DIR} ${javaVersion} ${JDK_URL}
 
 echo "-----> Installing Overlay"
 jdk_overlay ${BUILD_DIR}
