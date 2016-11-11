@@ -43,10 +43,10 @@ source /tmp/jvm-common/bin/util
 echo "-----> Sourcing java."
 source /tmp/jvm-common/bin/java
 
-echo "-----> Detecting java version"
-javaVersion=$(detect_java_version ${BUILD_DIR})
+#echo "-----> Detecting java version"
+#javaVersion=$(detect_java_version ${BUILD_DIR})
 
-echo "Returned : ${javaVersion}"
+#echo "Returned : ${javaVersion}"
 
 echo "-----> Installing OracleJDK ${javaVersion}"
 install_java ${BUILD_DIR} ${javaVersion}
