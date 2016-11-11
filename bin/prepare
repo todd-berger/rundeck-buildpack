@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+# This script started out as the bin/compile script from the heroku java
+# buildpack, but most of the code has been removed, all it does is download
+# java now.
+#
+# bin/prepare <build-dir> <cache-dir> <env-dir>
+
+# fail fast
+set -e
+
+BP_DIR=$(cd $(dirname $0)/..; pwd) # absolute path
+
+#Source scripts
+. $BP_DIR/lib/common.sh
+. $BP_DIR/lib/rundeck.sh
+
+# parse args
+BUILD_DIR=$1
+CACHE_DIR=$2
+ENV_DIR=$3
+
+export_env_dir $ENV_DIR
+
+# verify JDK_URL is set for download
+if [ -z ${JDK_URL+x} ]; 
+	then echo "Error: $JDK_URL is unset, exiting."; 
+	exit 1
+else echo "$JDK_URL detected as '$JDK_URL'"; 
+fi
+
+# verify JVM_COMMON_BUILDPACK is set for download
+if [ -z ${JVM_COMMON_BUILDPACK+x} ]; 
+	then echo "Error: $JVM_COMMON_BUILDPACK is unset, exiting."; 
+	exit 1
+else echo "$JVM_COMMON_BUILDPACK detected as '$JVM_COMMON_BUILDPACK'"; 
+fi
+
+mkdir -p /tmp/jvm-common
+curl --silent --location $JVM_COMMON_BUILDPACK | tar xzm -C /tmp/jvm-common
+. /tmp/jvm-common/bin/util
+. /tmp/jvm-common/bin/java
+
+# install JDK
+javaVersion=$(detect_java_version ${BUILD_DIR})
+echo -n "-----> Installing OracleJDK ${javaVersion}"
+install_java ${BUILD_DIR} ${javaVersion}
+jdk_overlay ${BUILD_DIR}
+echo " done"
+
+
+PROFILE_PATH="$BUILD_DIR/.profile.d/java.sh"
+mkdir -p $(dirname $PROFILE_PATH)
+echo 'export PATH="/app/.jdk/bin:$PATH"' >> $PROFILE_PATH
+echo 'export JAVA_TOOL_OPTIONS="$JAVA_TOOL_OPTIONS -Djava.rmi.server.useCodebaseOnly=true"' >> $PROFILE_PATH
+
+
+# verify RUNDECK_URL is set for download
+if [ -z ${RUNDECK_URL+x} ]; 
+	then echo "Error: $RUNDECK_URL is unset, exiting."; 
+	exit 1
+else echo "$RUNDECK_URL detected as '$RUNDECK_URL'"; 
+fi
+
+# verify RUNDECK_VERSION is set for download
+if [ -z ${RUNDECK_VERSION+x} ]; 
+	then echo "Error: $RUNDECK_VERSION is unset, exiting."; 
+	exit 1
+else echo "$RUNDECK_VERSION detected as '$RUNDECK_VERSION'"; 
+fi
+
+# verify RDECK_BASE is set for download
+if [ -z ${RDECK_BASE+x} ]; 
+	then echo "Error: $RDECK_BASE is unset, exiting."; 
+	exit 1
+else echo "$RDECK_BASE detected as '$RDECK_BASE'"; 
+fi
+
+# verify RDECK_ADMIN_USER is set for download
+if [ -z ${RDECK_ADMIN_USER+x} ]; 
+	then echo "Error: $RDECK_ADMIN_USER is unset, exiting."; 
+	exit 1
+else echo "$RDECK_ADMIN_USER detected as '$RDECK_ADMIN_USER'"; 
+fi
+
+# verify RDECK_ADMIN_PWD is set for download
+if [ -z ${RDECK_ADMIN_PWD+x} ]; 
+	then echo "Error: $RDECK_ADMIN_PWD is unset, exiting."; 
+	exit 1
+else echo "$RDECK_ADMIN_PWD detected as '$RDECK_ADMIN_PWD'"; 
+fi
+
+install_rundeck ${BUILD_DIR} ${RUNDECK_VERSION}
+initialize_rundeck_environment ${BUILD_DIR} ${RUNDECK_URL} ${RDECK_BASE} ${RDECK_ADMIN_USER} ${RDECK_ADMIN_PWD} ${PORT_APP} "localhost"

@@ -1,0 +1,89 @@
+#!/usr/bin/env bash
+
+set -eu
+
+install_rundeck() {
+  BUILD_DIR=$1
+  RUNDECK_VERSION=$2
+
+  if [ ! -d "${BUILD_DIR}" ]; then
+    error_return "Invalid directory to install rundeck."
+    return 1
+  fi
+
+  #change to the working directory
+  cd ${BUILD_DIR}
+
+  #grab the launcher
+  curl http://dl.bintray.com/rundeck/rundeck-maven/rundeck-launcher-${RUNDECK_VERSION}.jar -O ${baseDir}/rundeck-launcher.jar
+
+  #create necessary directories
+  mkdir -vp var/logs/rundeck server/config etc
+
+  #replace files with my config files
+  ls -la
+  mv ./etc/admin.aclpolicy etc/
+  mv ./etc/apitoken.aclpolicy etc/
+  mv ./etc/framework.properties etc/
+  mv ./etc/jaas-ldap.conf etc/
+  mv ./etc/log4j.properties etc/
+  mv ./etc/profile etc/
+  mv ./etc/project.properties server/config/
+  mv ./etc/realm.properties server/config/
+  mv ./etc/rundeck-config.properties server/config/
+
+}
+
+initialize_rundeck_environment() {
+  BUILD_DIR=$1
+  RUNDECK_URL=$2
+  RDECK_BASE=$3
+  RDECK_ADMIN_USER=$4
+  RDECK_ADMIN_PWD=$5
+  RUNDECK_PORT=$6
+  SERVER_NAME=$7
+
+  if [ ! -d "${BUILD_DIR}" ]; then
+    error_return "Invalid directory to initialize rundeck."
+    return 1
+  fi
+  echo "INFO: [$0] SERVER_NAME=$SERVER_NAME, RNDECK_PORT=$RUNDECK_PORT, SERVER_URL=$RUNDECK_URL, RDECK_BASE=$RDECK_BASE, USER=$(whoami)"
+  echo "INFO: [$0] \$@: $@"
+
+  # Initialize the installation config.
+  sed -i \
+    -e "s,@SERVER_URL@,$RUNDECK_URL,g" \
+    -e "s,@RDECK_BASE@,$RDECK_BASE,g" \
+    server/config/rundeck-config.properties && cat server/config/rundeck-config.properties
+  sed -i \
+    -e "s,@ADMIN_USER@,$RDECK_ADMIN_USER,g" \
+    -e "s,@ADMIN_PASS@,$RDECK_ADMIN_PWD,g" \
+    server/config/realm.properties && cat server/config/realm.properties
+
+  sed -i \
+    -e "s,@RDECK_BASE@,$RDECK_BASE,g" \
+    -e "s,@SERVER_NAME@,$SERVER_NAME,g" \
+    -e "s,@SERVER_URL@,$RUNDECK_URL,g" \
+    -e "s,@ADMIN_USER@,$RDECK_ADMIN_USER,g" \
+    -e "s,@ADMIN_PASS@,$RDECK_ADMIN_PWD,g" \
+    etc/framework.properties && cat etc/framework.properties
+
+  sed -i \
+    -e "s,@RDECK_BASE@,$RDECK_BASE,g" \
+    etc/profile
+
+  sed -i \
+    -e "s,@RDECK_BASE@,$RDECK_BASE,g" \
+    etc/log4j.properties
+    
+  sed -i -e "s,grails.serverURL=.*,grails.serverURL=$RUNDECK_URL,g" \
+  $RDECK_BASE/server/config/rundeck-config.properties
+
+  sed -i \
+    -e "s,grails.serverURL=.*,grails.serverURL=$RUNDECK_URL,g" \
+    -e "s,framework.server.url=.*,framework.server.url=$RUNDECK_URL,g" \
+    -e "s,framework.server.name=.*,framework.server.name=$SERVER_NAME,g" \
+    -e "s,framework.server.port=.*,framework.server.port=$RUNDECK_PORT,g" \
+    -e "s,framework.server.hostname=.*,framework.server.hostname=$SERVER_NAME,g" \
+    $RDECK_BASE/etc/framework.properties
+}
