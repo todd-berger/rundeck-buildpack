@@ -37,16 +37,16 @@ echo "Downloading and extracting buildpack"
 mkdir -p /tmp/jvm-common
 curl --silent --location $JVM_COMMON_BUILDPACK | tar xzm -C /tmp/jvm-common
 
-echo -n "Sourcing utils."
+echo "Sourcing utils."
 source /tmp/jvm-common/bin/util
 
-#echo -n "Sourcing java."
-#source /tmp/jvm-common/bin/java
+echo "Sourcing java."
+source /tmp/jvm-common/bin/java
 
 # install JDK
-echo -n "detecting java version"
+echo "detecting java version"
 javaVersion=$(detect_java_version ${BUILD_DIR})
-echo -n "-----> Installing OracleJDK ${javaVersion}"
+echo "-----> Installing OracleJDK ${javaVersion}"
 install_java ${BUILD_DIR} ${javaVersion}
 jdk_overlay ${BUILD_DIR}
 echo " done"
