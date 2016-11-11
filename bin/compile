@@ -33,19 +33,19 @@ if [ -z ${JVM_COMMON_BUILDPACK+x} ];
 else echo "JVM_COMMON_BUILDPACK detected as '$JVM_COMMON_BUILDPACK'"; 
 fi
 
-echo "Downloading and extracting buildpack"
+echo "-----> Downloading and extracting buildpack"
 mkdir -p /tmp/jvm-common
 curl --silent --location $JVM_COMMON_BUILDPACK | tar xzm -C /tmp/jvm-common
 
-echo "Sourcing utils."
+echo "-----> Sourcing utils."
 source /tmp/jvm-common/bin/util
 
-echo "Sourcing java."
+echo "-----> Sourcing java."
 source /tmp/jvm-common/bin/java
 
 
 # install JDK
-javaVersion="1.8"
+javaVersion="1_8"
 
 echo "-----> Installing OracleJDK ${javaVersion}"
 install_java ${BUILD_DIR} ${javaVersion}
@@ -94,5 +94,8 @@ if [ -z ${RDECK_ADMIN_PWD+x} ];
 else echo "RDECK_ADMIN_PWD detected as '$RDECK_ADMIN_PWD'"; 
 fi
 
+echo "-----> Installing Rundeck"
 install_rundeck ${BUILD_DIR} ${RUNDECK_VERSION}
+
+echo "-----> Configuring Rundeck"
 initialize_rundeck_environment ${BUILD_DIR} ${RUNDECK_URL} ${RDECK_BASE} ${RDECK_ADMIN_USER} ${RDECK_ADMIN_PWD} ${PORT_APP} "localhost"
