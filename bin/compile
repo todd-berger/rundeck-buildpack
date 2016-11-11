@@ -43,9 +43,9 @@ source /tmp/jvm-common/bin/util
 echo "-----> Sourcing java."
 source /tmp/jvm-common/bin/java
 
-
-# install JDK
-javaVersion="1_8"
+echo -n "-----> Detecting java version"
+echo ${BUILD_DIR}
+javaVersion=$(detect_java_version ${BUILD_DIR})
 
 echo "-----> Installing OracleJDK ${javaVersion}"
 install_java ${BUILD_DIR} ${javaVersion}
