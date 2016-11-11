@@ -37,7 +37,8 @@ fi
 
 mkdir -p /tmp/jvm-common
 echo "downloading jvm buildpack"
-curl --silent --location $JVM_COMMON_BUILDPACK | tar xzm -C /tmp/jvm-common
+curl --location $JVM_COMMON_BUILDPACK | tar xzm -C /tmp/jvm-common
+echo "source utils and java"
 . /tmp/jvm-common/bin/util
 . /tmp/jvm-common/bin/java
 
