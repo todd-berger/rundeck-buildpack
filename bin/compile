@@ -37,8 +37,8 @@ echo "Downloading and extracting buildpack"
 mkdir -p /tmp/jvm-common
 curl --silent --location $JVM_COMMON_BUILDPACK | tar xzm -C /tmp/jvm-common
 
-#echo -n "Sourcing utils."
-#source /tmp/jvm-common/bin/util
+echo -n "Sourcing utils."
+source /tmp/jvm-common/bin/util
 
 #echo -n "Sourcing java."
 #source /tmp/jvm-common/bin/java
