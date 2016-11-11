@@ -22,7 +22,7 @@ ENV_DIR=$3
 export_env_dir $ENV_DIR
 
 # verify JDK_URL is set for download
-if [ -z ${JDK_URL_1.8+x} ]; 
+if [ -z ${JDK_URL+x} ]; 
 	then echo "Error: JDK_URL is unset, exiting."; 
 	exit 1
 else echo "JDK_URL detected as '$JDK_URL'"; 
