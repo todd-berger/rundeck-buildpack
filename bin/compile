@@ -22,7 +22,7 @@ ENV_DIR=$3
 export_env_dir $ENV_DIR
 
 # verify JDK_URL is set for download
-if [ -z ${JDK_URL+x} ]; 
+if [ -z ${JDK_URL_1.8+x} ]; 
 	then echo "Error: JDK_URL is unset, exiting."; 
 	exit 1
 else echo "JDK_URL detected as '$JDK_URL'"; 
@@ -36,11 +36,14 @@ else echo "JVM_COMMON_BUILDPACK detected as '$JVM_COMMON_BUILDPACK'";
 fi
 
 mkdir -p /tmp/jvm-common
-echo "downloading jvm buildpack"
+echo "Downloading jvm buildpack."
 curl --location $JVM_COMMON_BUILDPACK | tar xzm -C /tmp/jvm-common
-echo "source utils and java"
+echo "Source utils and java."
+# Replace set +e so below don't bomb
+set +e
 . /tmp/jvm-common/bin/util
 . /tmp/jvm-common/bin/java
+set -e
 
 # install JDK
 javaVersion=$(detect_java_version ${BUILD_DIR})
