@@ -44,7 +44,6 @@ source /tmp/jvm-common/bin/util
 echo -n "Source java."
 source /tmp/jvm-common/bin/java
 
-
 # install JDK
 echo -n "detecting java version"
 javaVersion=$(detect_java_version ${BUILD_DIR})
