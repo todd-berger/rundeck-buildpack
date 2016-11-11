@@ -5,8 +5,6 @@
 #
 # bin/prepare <build-dir> <cache-dir> <env-dir>
 
-# fail fast
-set -e
 
 BP_DIR=$(cd $(dirname $0)/..; pwd) # absolute path
 
@@ -37,15 +35,16 @@ fi
 
 mkdir -p /tmp/jvm-common
 echo "Downloading jvm buildpack."
-curl --location $JVM_COMMON_BUILDPACK | tar xzm -C /tmp/jvm-common
-echo "Source utils and java."
-# Replace set +e so below don't bomb
-set +e
+curl --silent --location $JVM_COMMON_BUILDPACK | tar xzm -C /tmp/jvm-common
+
+echo -n  "Source utils."
 . /tmp/jvm-common/bin/util
+
+echo -n "Source java."
 . /tmp/jvm-common/bin/java
-set -e
 
 # install JDK
+echo -n "detecting java version"
 javaVersion=$(detect_java_version ${BUILD_DIR})
 echo -n "-----> Installing OracleJDK ${javaVersion}"
 install_java ${BUILD_DIR} ${javaVersion}
