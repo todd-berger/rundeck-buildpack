@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+echo "Starting Rundeck Deploy"
+exit 0
