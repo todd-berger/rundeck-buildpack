@@ -33,7 +33,7 @@ initialize_rundeck_environment() {
   RDECK_ADMIN_USER=$4
   RDECK_ADMIN_PWD=$5
   SERVER_NAME=$6
-  $RUNDECK_GROUP=$7
+  RUNDECK_GROUP=$7
 
   if [ ! -d "${BUILD_DIR}" ]; then
     error_return "Invalid directory to initialize rundeck."
