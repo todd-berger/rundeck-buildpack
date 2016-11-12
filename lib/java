@@ -23,6 +23,8 @@ install_java() {
     return 1
   fi
 
+  jdkUrl=$3
+
   jdkDir="${baseDir}"/.jdk
   jdkTarball="${jdkDir}"/jdk.tar.gz
   javaExe="${jdkDir}/$(_get_relative_jdk_bin)"/java
@@ -30,7 +32,7 @@ install_java() {
   if [ ! -f "${jdkTarball}" ] && [ ! -f "${javaExe}" ] || is_java_version_change "${jdkDir}" "${javaVersion}"; then
     rm -rf "${jdkDir}"
     mkdir -p "${jdkDir}"
-    jdkUrl=$(_get_jdk_download_url "${javaVersion}")
+    echo "Pulling JDK"
     curl --silent --location ${jdkUrl} --output ${jdkTarball}
     tar pxzf ${jdkTarball} -C "${jdkDir}"
     rm ${jdkTarball}
@@ -43,7 +45,7 @@ install_java() {
   export JAVA_HOME="${jdkDir}/$(_get_relative_jdk_home)"
   export PATH="${jdkDir}/$(_get_relative_jdk_bin):${PATH}"
 
-  _install_tools ${baseDir}
+  # _install_tools ${baseDir}
   _create_profile_script ${baseDir}
   _create_export_script ${JAVA_HOME} "$(pwd)"
 }

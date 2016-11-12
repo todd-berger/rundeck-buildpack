@@ -41,7 +41,7 @@ echo "-----> Sourcing utils."
 source /tmp/jvm-common/bin/util
 
 echo "-----> Sourcing java."
-source ${BUILD_DIR}/bin/java
+source lib/java
 
 if [ ! -f ${BUILD_DIR}/system.properties ]; then
   echo "java.runtime.version=1.8" > ${BUILD_DIR}/system.properties
