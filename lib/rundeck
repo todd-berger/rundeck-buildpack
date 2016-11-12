@@ -20,6 +20,9 @@ install_rundeck() {
   #create necessary directories
   mkdir -vp var/logs/rundeck
 
+  # extract rundeck
+  java -Xmx2048m -jar $RDECK_BASE/rundeck-launcher.jar --installonly
+
 }
 
 initialize_rundeck_environment() {
@@ -74,3 +77,4 @@ initialize_rundeck_environment() {
     -e "s,framework.server.hostname=.*,framework.server.hostname=$SERVER_NAME,g" \
     etc/framework.properties
 }
+
