@@ -22,12 +22,12 @@ install_rundeck() {
 
   #replace files with my config files
   ls -la
-  mv ./etc/admin.aclpolicy etc/
-  mv ./etc/apitoken.aclpolicy etc/
-  mv ./etc/framework.properties etc/
-  mv ./etc/jaas-ldap.conf etc/
-  mv ./etc/log4j.properties etc/
-  mv ./etc/profile etc/
+  #mv ./etc/admin.aclpolicy etc/
+  #mv ./etc/apitoken.aclpolicy etc/
+  #mv ./etc/framework.properties etc/
+  #mv ./etc/jaas-ldap.conf etc/
+  #mv ./etc/log4j.properties etc/
+  #mv ./etc/profile etc/
   mv ./etc/project.properties server/config/
   mv ./etc/realm.properties server/config/
   mv ./etc/rundeck-config.properties server/config/
