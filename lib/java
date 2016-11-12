@@ -46,8 +46,8 @@ install_java() {
   export PATH="${jdkDir}/$(_get_relative_jdk_bin):${PATH}"
 
   # _install_tools ${baseDir}
-  _create_profile_script ${baseDir}
-  _create_export_script ${JAVA_HOME} "$(pwd)"
+  #_create_profile_script ${baseDir}
+  #_create_export_script ${JAVA_HOME} "$(pwd)"
 }
 
 jdk_overlay() {
