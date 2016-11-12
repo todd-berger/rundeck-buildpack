@@ -46,8 +46,7 @@ initialize_rundeck_environment() {
   
   sed -i \
     -e "s,<role-name>user</role-name>,<role-name>$RUNDECK_GROUP</role-name>,g" \
-    -e "s,@RDECK_BASE@,$RDECK_BASE,g" \
-    server/exp/webapp/WEB-INF/web.xml && cat server/exp/webapp/WEB-INF/web.xm;
+    server/exp/webapp/WEB-INF/web.xml && cat server/exp/webapp/WEB-INF/web.xml
 
   sed -i \
     -e "s,@SERVER_URL@,$RUNDECK_URL,g" \
