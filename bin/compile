@@ -101,8 +101,15 @@ if [ -z ${RDECK_ADMIN_PWD+x} ];
 else echo "RDECK_ADMIN_PWD detected as '$RDECK_ADMIN_PWD'"; 
 fi
 
+# verify RUNDECK_GROUP is set for download
+if [ -z ${RUNDECK_GROUP+x} ]; 
+	then echo "Error: RUNDECK_GROUP is unset, exiting."; 
+	exit 1
+else echo "RUNDECK_GROUP detected as '$RUNDECK_GROUP'"; 
+fi
+
 echo "-----> Installing Rundeck"
 install_rundeck ${BUILD_DIR} ${RUNDECK_VERSION}
 
 echo "-----> Configuring Rundeck"
-initialize_rundeck_environment ${BUILD_DIR} ${RUNDECK_URL} ${RDECK_BASE} ${RDECK_ADMIN_USER} ${RDECK_ADMIN_PWD} "localhost"
+initialize_rundeck_environment ${BUILD_DIR} ${RUNDECK_URL} ${RDECK_BASE} ${RDECK_ADMIN_USER} ${RDECK_ADMIN_PWD} "localhost" ${RUNDECK_GROUP}

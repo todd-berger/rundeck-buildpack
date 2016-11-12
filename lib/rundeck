@@ -21,8 +21,9 @@ install_rundeck() {
   mkdir -vp var/logs/rundeck
 
   # extract rundeck
+  echo "extract rundeck"
   java -Xmx2048m -jar $BUILD_DIR/rundeck-launcher.jar --installonly
-
+  echo "completed - extract rundeck"
 }
 
 initialize_rundeck_environment() {
@@ -32,6 +33,7 @@ initialize_rundeck_environment() {
   RDECK_ADMIN_USER=$4
   RDECK_ADMIN_PWD=$5
   SERVER_NAME=$6
+  $RUNDECK_GROUP=$7
 
   if [ ! -d "${BUILD_DIR}" ]; then
     error_return "Invalid directory to initialize rundeck."
@@ -41,6 +43,12 @@ initialize_rundeck_environment() {
   echo "INFO: [$0] \$@: $@"
 
   # Initialize the installation config.
+  
+  sed -i \
+    -e "s,<role-name>user</role-name>,<role-name>$RUNDECK_GROUP</role-name>,g" \
+    -e "s,@RDECK_BASE@,$RDECK_BASE,g" \
+    server/exp/webapp/WEB-INF/web.xml && cat server/exp/webapp/WEB-INF/web.xm;
+
   sed -i \
     -e "s,@SERVER_URL@,$RUNDECK_URL,g" \
     -e "s,@RDECK_BASE@,$RDECK_BASE,g" \
