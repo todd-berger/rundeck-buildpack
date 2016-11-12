@@ -34,7 +34,7 @@ initialize_rundeck_environment() {
     error_return "Invalid directory to initialize rundeck."
     return 1
   fi
-  echo "INFO: [$0] SERVER_NAME=$SERVER_NAME, RNDECK_PORT=$RUNDECK_PORT, SERVER_URL=$RUNDECK_URL, RDECK_BASE=$RDECK_BASE, USER=$(whoami)"
+  echo "INFO: [$0] SERVER_NAME=$SERVER_NAME, SERVER_URL=$RUNDECK_URL, RDECK_BASE=$RDECK_BASE, USER=$(whoami)"
   echo "INFO: [$0] \$@: $@"
 
   # Initialize the installation config.
