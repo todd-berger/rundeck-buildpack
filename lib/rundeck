@@ -70,7 +70,7 @@ initialize_rundeck_environment() {
     -e "s,grails.serverURL=.*,grails.serverURL=$RUNDECK_URL,g" \
     -e "s,framework.server.url=.*,framework.server.url=$RUNDECK_URL,g" \
     -e "s,framework.server.name=.*,framework.server.name=$SERVER_NAME,g" \
-    -e "s,framework.server.port=.*,framework.server.port=${PORT_APP},g" \
+    -e 's,framework.server.port=.*,framework.server.port=${PORT_APP},g' \
     -e "s,framework.server.hostname=.*,framework.server.hostname=$SERVER_NAME,g" \
     etc/framework.properties
 }
