@@ -21,7 +21,7 @@ install_rundeck() {
   mkdir -vp var/logs/rundeck
 
   # extract rundeck
-  java -Xmx2048m -jar $RDECK_BASE/rundeck-launcher.jar --installonly
+  java -Xmx2048m -jar $BUILD_DIR/rundeck-launcher.jar --installonly
 
 }
 
