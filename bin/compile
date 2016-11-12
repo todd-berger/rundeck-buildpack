@@ -105,4 +105,4 @@ echo "-----> Installing Rundeck"
 install_rundeck ${BUILD_DIR} ${RUNDECK_VERSION}
 
 echo "-----> Configuring Rundeck"
-initialize_rundeck_environment ${BUILD_DIR} ${RUNDECK_URL} ${RDECK_BASE} ${RDECK_ADMIN_USER} ${RDECK_ADMIN_PWD} ${PORT_APP} "localhost"
+initialize_rundeck_environment ${BUILD_DIR} ${RUNDECK_URL} ${RDECK_BASE} ${RDECK_ADMIN_USER} ${RDECK_ADMIN_PWD} "localhost"

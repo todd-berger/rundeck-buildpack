@@ -18,19 +18,7 @@ install_rundeck() {
   curl --silent --location http://dl.bintray.com/rundeck/rundeck-maven/rundeck-launcher-${RUNDECK_VERSION}.jar --output ${baseDir}/rundeck-launcher.jar
 
   #create necessary directories
-  mkdir -vp var/logs/rundeck server/config etc
-
-  #replace files with my config files
-  ls -la
-  #mv ./etc/admin.aclpolicy etc/
-  #mv ./etc/apitoken.aclpolicy etc/
-  #mv ./etc/framework.properties etc/
-  #mv ./etc/jaas-ldap.conf etc/
-  #mv ./etc/log4j.properties etc/
-  #mv ./etc/profile etc/
-  mv ./etc/project.properties server/config/
-  mv ./etc/realm.properties server/config/
-  mv ./etc/rundeck-config.properties server/config/
+  mkdir -vp var/logs/rundeck
 
 }
 
@@ -40,8 +28,7 @@ initialize_rundeck_environment() {
   RDECK_BASE=$3
   RDECK_ADMIN_USER=$4
   RDECK_ADMIN_PWD=$5
-  RUNDECK_PORT=$6
-  SERVER_NAME=$7
+  SERVER_NAME=$6
 
   if [ ! -d "${BUILD_DIR}" ]; then
     error_return "Invalid directory to initialize rundeck."
@@ -83,7 +70,7 @@ initialize_rundeck_environment() {
     -e "s,grails.serverURL=.*,grails.serverURL=$RUNDECK_URL,g" \
     -e "s,framework.server.url=.*,framework.server.url=$RUNDECK_URL,g" \
     -e "s,framework.server.name=.*,framework.server.name=$SERVER_NAME,g" \
-    -e "s,framework.server.port=.*,framework.server.port=$RUNDECK_PORT,g" \
+    -e "s,framework.server.port=.*,framework.server.port=${PORT_APP},g" \
     -e "s,framework.server.hostname=.*,framework.server.hostname=$SERVER_NAME,g" \
     $RDECK_BASE/etc/framework.properties
 }
