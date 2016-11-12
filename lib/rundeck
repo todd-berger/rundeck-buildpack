@@ -64,7 +64,7 @@ initialize_rundeck_environment() {
     etc/log4j.properties
     
   sed -i -e "s,grails.serverURL=.*,grails.serverURL=$RUNDECK_URL,g" \
-  $RDECK_BASE/server/config/rundeck-config.properties
+  server/config/rundeck-config.properties
 
   sed -i \
     -e "s,grails.serverURL=.*,grails.serverURL=$RUNDECK_URL,g" \
@@ -72,5 +72,5 @@ initialize_rundeck_environment() {
     -e "s,framework.server.name=.*,framework.server.name=$SERVER_NAME,g" \
     -e "s,framework.server.port=.*,framework.server.port=${PORT_APP},g" \
     -e "s,framework.server.hostname=.*,framework.server.hostname=$SERVER_NAME,g" \
-    $RDECK_BASE/etc/framework.properties
+    etc/framework.properties
 }
