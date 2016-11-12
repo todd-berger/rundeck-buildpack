@@ -9,8 +9,7 @@ set -e
 BP_DIR=$(cd $(dirname $0)/..; pwd) # absolute path
 
 #Source scripts
-. $BP_DIR/lib/common.sh
-. $BP_DIR/lib/rundeck.sh
+. $BP_DIR/lib/common
 
 # parse args
 BUILD_DIR=$1
@@ -42,6 +41,9 @@ source /tmp/jvm-common/bin/util
 
 echo "-----> Sourcing java."
 source $BP_DIR/lib/java
+
+echo "-----> Sourcing rundeck."
+source $BP_DIR/lib/rundeck
 
 if [ ! -f ${BUILD_DIR}/system.properties ]; then
   echo "java.runtime.version=1.8" > ${BUILD_DIR}/system.properties

@@ -15,7 +15,7 @@ install_rundeck() {
   cd ${BUILD_DIR}
 
   #grab the launcher
-  curl http://dl.bintray.com/rundeck/rundeck-maven/rundeck-launcher-${RUNDECK_VERSION}.jar -O ${baseDir}/rundeck-launcher.jar
+  curl --silent --location http://dl.bintray.com/rundeck/rundeck-maven/rundeck-launcher-${RUNDECK_VERSION}.jar --output ${baseDir}/rundeck-launcher.jar
 
   #create necessary directories
   mkdir -vp var/logs/rundeck server/config etc
